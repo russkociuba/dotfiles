@@ -49,6 +49,7 @@ echo -e "${BLUE}Installing ZSH configuration...${NC}"
 create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES_DIR/.zsh_aliases" "$HOME/.zsh_aliases"
 create_symlink "$DOTFILES_DIR/.zsh_functions" "$HOME/.zsh_functions"
+create_symlink "$DOTFILES_DIR/.dircolors" "$HOME/.dircolors"
 
 # Install Git configuration if it exists
 if [ -f "$DOTFILES_DIR/.gitconfig" ]; then
