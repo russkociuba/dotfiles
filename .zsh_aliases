@@ -7,13 +7,12 @@
 # ============================================================================
 
 # Better defaults with colors
-alias ls='ls --color=auto'
-alias ll='ls -lhF --color=auto'
-alias la='ls -lAhF --color=auto'
-alias l='ls -CF --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias ls='ls --color=auto'                # Basic ls with colors
+alias ll='ls -lhF --color=auto'          # Long format: -l (details), -h (human-readable sizes like 1K, 234M), -F (add / to dirs, * to executables)
+alias l='ls -lAhF --color=auto'         # Long format + almost-all: -A (show hidden files except . and ..)
+alias grep='grep --color=auto'           # Colorize grep output
+alias fgrep='fgrep --color=auto'         # Fast grep (no regex) with colors
+alias egrep='egrep --color=auto'         # Extended grep (advanced regex) with colors
 
 # Directory navigation
 alias ..='cd ..'
@@ -21,7 +20,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-# Safety nets
+# Safety nets (-i = interactive, prompts before overwriting/deleting)
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -31,7 +30,7 @@ alias zshrc='$EDITOR ~/.zshrc'
 alias aliases='$EDITOR ~/.zsh_aliases'
 alias reload='source ~/.zshrc && echo "ZSH config reloaded!"'
 
-# System
+# System (Manjaro/Arch pacman: -S=install, -Syu=sync+update, -Ss=search, -Rns=remove+dependencies+config, -Qtdq=list orphans)
 alias update='sudo pacman -Syu'
 alias install='sudo pacman -S'
 alias search='pacman -Ss'
@@ -48,39 +47,39 @@ alias dots='cd ~/projects/dotfiles'
 # Status and info
 alias g='git'
 alias gs='git status'
-alias gss='git status -s'
-alias gl='git log --oneline --decorate --graph'
-alias gla='git log --oneline --decorate --graph --all'
-alias gll='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias gss='git status -s'                                # Short format (single line per file)
+alias gl='git log --oneline --decorate --graph'          # One line per commit with branch names and graph
+alias gla='git log --oneline --decorate --graph --all'   # Same but show ALL branches
+alias gll='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'  # Fancy colored log
 
 # Branch operations
 alias gb='git branch'
-alias gba='git branch -a'
-alias gbd='git branch -d'
-alias gbD='git branch -D'
+alias gba='git branch -a'                                # Show all branches (including remote)
+alias gbd='git branch -d'                                # Delete branch (safe: only if merged)
+alias gbD='git branch -D'                                # Force delete branch (even if not merged)
 alias gco='git checkout'
-alias gcob='git checkout -b'
-alias gcom='git checkout main 2>/dev/null || git checkout master'
+alias gcob='git checkout -b'                             # Create new branch and switch to it
+alias gcom='git checkout main 2>/dev/null || git checkout master'  # Switch to main or master
 
 # Add and commit
 alias ga='git add'
 alias gaa='git add .'
-alias gap='git add -p'
+alias gap='git add -p'                                   # Interactive staging: choose which changes to add
 alias gc='git commit'
 alias gcm='git commit -m'
-alias gca='git commit --amend'
-alias gcan='git commit --amend --no-edit'
+alias gca='git commit --amend'                           # Modify the last commit (opens editor)
+alias gcan='git commit --amend --no-edit'                # Modify last commit without changing message
 
 # Push and pull
 alias gp='git push'
-alias gpf='git push --force-with-lease'
+alias gpf='git push --force-with-lease'                  # Safer force push: fails if remote has new commits
 alias gpl='git pull'
-alias gplr='git pull --rebase'
+alias gplr='git pull --rebase'                           # Pull and rebase instead of merge
 
 # Diff and show
 alias gd='git diff'
-alias gdc='git diff --cached'
-alias gds='git diff --staged'
+alias gdc='git diff --cached'                            # Show staged changes (--cached = --staged)
+alias gds='git diff --staged'                            # Show staged changes (same as --cached)
 alias gshow='git show'
 
 # Stash
@@ -90,16 +89,16 @@ alias gstl='git stash list'
 alias gsta='git stash apply'
 
 # Reset and clean
-alias grh='git reset HEAD'
-alias grhh='git reset --hard HEAD'
-alias gclean='git clean -fd'
+alias grh='git reset HEAD'                               # Unstage all files
+alias grhh='git reset --hard HEAD'                       # DANGER: Discard all uncommitted changes
+alias gclean='git clean -fd'                             # Remove untracked files (-f=force, -d=directories)
 
 # Misc
 alias gf='git fetch'
-alias gfa='git fetch --all'
+alias gfa='git fetch --all'                              # Fetch from all remotes
 alias gm='git merge'
 alias grb='git rebase'
-alias grbi='git rebase -i'
+alias grbi='git rebase -i'                               # Interactive rebase: reorder/squash/edit commits
 alias gcp='git cherry-pick'
 alias gbl='git blame'
 
@@ -109,8 +108,8 @@ alias gbl='git blame'
 
 # Docker basics
 alias d='docker'
-alias dps='docker ps'
-alias dpsa='docker ps -a'
+alias dps='docker ps'                                    # List running containers
+alias dpsa='docker ps -a'                                # List all containers (including stopped)
 alias di='docker images'
 alias drm='docker rm'
 alias drmi='docker rmi'
@@ -119,28 +118,28 @@ alias dstart='docker start'
 alias drestart='docker restart'
 
 # Docker exec and logs
-alias dex='docker exec -it'
+alias dex='docker exec -it'                              # Execute command in container (-i=interactive, -t=terminal)
 alias dlogs='docker logs'
-alias dlogsf='docker logs -f'
+alias dlogsf='docker logs -f'                            # Follow logs in real-time (like tail -f)
 
 # Docker compose
 alias dc='docker-compose'
 alias dcup='docker-compose up'
-alias dcupd='docker-compose up -d'
+alias dcupd='docker-compose up -d'                       # Start in background/detached mode
 alias dcdown='docker-compose down'
 alias dcrestart='docker-compose restart'
 alias dclogs='docker-compose logs'
-alias dclogsf='docker-compose logs -f'
+alias dclogsf='docker-compose logs -f'                   # Follow logs in real-time
 alias dcps='docker-compose ps'
 alias dcexec='docker-compose exec'
 alias dcbuild='docker-compose build'
 alias dcpull='docker-compose pull'
 
 # Docker cleanup
-alias dprune='docker system prune -f'
-alias dpruneall='docker system prune -af --volumes'
-alias drmall='docker rm -f $(docker ps -aq) 2>/dev/null || echo "No containers to remove"'
-alias drmiall='docker rmi -f $(docker images -q) 2>/dev/null || echo "No images to remove"'
+alias dprune='docker system prune -f'                    # Remove stopped containers, unused networks (-f=no prompt)
+alias dpruneall='docker system prune -af --volumes'      # DANGER: Remove everything unused including images and volumes
+alias drmall='docker rm -f $(docker ps -aq) 2>/dev/null || echo "No containers to remove"'  # DANGER: Force remove ALL containers (-a=all, -q=quiet/IDs only)
+alias drmiall='docker rmi -f $(docker images -q) 2>/dev/null || echo "No images to remove"'  # DANGER: Force remove ALL images
 
 # Docker stats and inspect
 alias dstats='docker stats'
@@ -159,23 +158,23 @@ alias activate='source venv/bin/activate || source env/bin/activate || source .v
 
 # Node/NPM
 alias ni='npm install'
-alias nid='npm install --save-dev'
-alias nig='npm install -g'
+alias nid='npm install --save-dev'                       # Install as dev dependency (saved to devDependencies)
+alias nig='npm install -g'                               # Install globally (system-wide)
 alias nr='npm run'
 alias ns='npm start'
 alias nt='npm test'
 alias nb='npm run build'
 
 # Common tasks
-alias serve='python3 -m http.server'
-alias ports='netstat -tulanp'
-alias myip='curl -s ifconfig.me && echo'
+alias serve='python3 -m http.server'                     # Start HTTP server in current dir (default port 8000)
+alias ports='netstat -tulanp'                            # Show all listening ports (-t=TCP, -u=UDP, -l=listening, -a=all, -n=numeric, -p=program)
+alias myip='curl -s ifconfig.me && echo'                 # Get public IP address (-s=silent)
 
 # File operations
-alias sizeof='du -sh'
-alias count='find . -type f | wc -l'
-alias tree='tree -C'
+alias sizeof='du -sh'                                    # Show size of directory/file (-s=summary, -h=human-readable)
+alias count='find . -type f | wc -l'                     # Count files in current directory recursively
+alias tree='tree -C'                                     # Show directory tree with colors
 
 # Process management
-alias psgrep='ps aux | grep -v grep | grep -i -e VSZ -e'
-alias killport='function _killport(){ lsof -ti:$1 | xargs kill -9 }; _killport'
+alias psgrep='ps aux | grep -v grep | grep -i -e VSZ -e'  # Search processes (excludes grep itself)
+alias killport='function _killport(){ lsof -ti:$1 | xargs kill -9 }; _killport'  # Kill process on port: killport 3000

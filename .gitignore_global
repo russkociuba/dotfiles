@@ -23,6 +23,7 @@ Desktop.ini
 *.sublime-project
 *.sublime-workspace
 .vim/
+*.iml
 
 # Environment and Config Files
 .env
