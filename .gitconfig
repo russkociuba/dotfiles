@@ -1,0 +1,92 @@
+[user]
+	name = russkociuba
+	email = admin@zoso2050.net
+
+[core]
+	editor = vim
+	autocrlf = input
+	excludesfile = ~/.gitignore_global
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[push]
+	default = simple
+	autoSetupRemote = true
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	status = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
+
+[alias]
+	# Short aliases
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+
+	# Logs
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+
+	# Diffs
+	d = diff
+	ds = diff --staged
+	dc = diff --cached
+
+	# Useful shortcuts
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	visual = !gitk
+	amend = commit --amend --no-edit
+	undo = reset --soft HEAD^
+
+	# Branch management
+	branches = branch -a
+	tags = tag -l
+	remotes = remote -v
+
+	# Stash
+	stash-all = stash save --include-untracked
+
+	# Clean
+	cleanup = !git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d
+
+[diff]
+	tool = vimdiff
+
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+
+[fetch]
+	prune = true
+
+[rerere]
+	enabled = true
+
+[help]
+	autocorrect = 1

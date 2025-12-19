@@ -1,0 +1,196 @@
+# ============================================================================
+# Russty's ZSH Functions
+# ============================================================================
+
+# Create directory and cd into it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Extract any archive
+extract() {
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Quick find
+qfind() {
+    find . -iname "*$1*"
+}
+
+# Git clone and cd
+gcl() {
+    git clone "$1" && cd "$(basename "$1" .git)"
+}
+
+# Create a new git repo and initial commit
+ginit() {
+    git init
+    git add .
+    git commit -m "Initial commit"
+    echo "Git repository initialized with initial commit"
+}
+
+# Quick git commit with message
+gcq() {
+    git add .
+    git commit -m "$*"
+}
+
+# Git add, commit, and push
+gacp() {
+    git add .
+    git commit -m "$*"
+    git push
+}
+
+# Create a new branch and switch to it
+gnb() {
+    git checkout -b "$1"
+}
+
+# Show git repo size
+greposize() {
+    git count-objects -vH
+}
+
+# Docker: Stop all running containers
+dstopall() {
+    docker stop $(docker ps -q) 2>/dev/null || echo "No running containers to stop"
+}
+
+# Docker: Remove all stopped containers
+drmallstopped() {
+    docker rm $(docker ps -aq -f status=exited) 2>/dev/null || echo "No stopped containers to remove"
+}
+
+# Docker: Enter a running container (by name or ID)
+denter() {
+    docker exec -it "$1" /bin/bash || docker exec -it "$1" /bin/sh
+}
+
+# Docker: Show container IPs
+dips() {
+    docker ps -q | xargs -n 1 docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} {{ .Name }}' | sed 's/ \// /'
+}
+
+# Docker compose: Rebuild and restart a specific service
+dcrebuilds() {
+    docker-compose build "$1" && docker-compose up -d "$1"
+}
+
+# Find and replace in files (usage: findreplace "old" "new" "*.txt")
+findreplace() {
+    if [ $# -ne 3 ]; then
+        echo "Usage: findreplace 'old-text' 'new-text' 'file-pattern'"
+        return 1
+    fi
+    find . -type f -name "$3" -exec sed -i "s/$1/$2/g" {} +
+    echo "Replaced '$1' with '$2' in files matching '$3'"
+}
+
+# Show directory sizes sorted
+dus() {
+    du -sh * | sort -h
+}
+
+# Quick backup of a file
+backup() {
+    cp "$1" "$1.backup-$(date +%Y%m%d-%H%M%S)"
+}
+
+# Show PATH in a readable format
+path() {
+    echo $PATH | tr ':' '\n'
+}
+
+# Quick server on specific port
+serveon() {
+    local port=${1:-8000}
+    python3 -m http.server $port
+}
+
+# Find largest files in current directory
+largest() {
+    local count=${1:-10}
+    du -ah . | sort -rh | head -n $count
+}
+
+# Find processes using a specific port
+whichport() {
+    lsof -i :$1
+}
+
+# Git: Show files changed in last commit
+glast() {
+    git show --name-only HEAD
+}
+
+# Git: Undo last commit but keep changes
+gundo() {
+    git reset --soft HEAD~1
+}
+
+# Git: Show all commits by author
+gby() {
+    git log --author="$1" --oneline --graph
+}
+
+# Create a new Python virtual environment and activate it
+venvnew() {
+    local venv_name=${1:-.venv}
+    python3 -m venv $venv_name
+    source $venv_name/bin/activate
+    echo "Virtual environment '$venv_name' created and activated"
+}
+
+# Quick note taking
+note() {
+    local notes_dir="$HOME/notes"
+    mkdir -p "$notes_dir"
+    local note_file="$notes_dir/$(date +%Y-%m-%d).md"
+
+    if [ $# -eq 0 ]; then
+        $EDITOR "$note_file"
+    else
+        echo "$(date +%H:%M:%S) - $*" >> "$note_file"
+        echo "Note added to $note_file"
+    fi
+}
+
+# Show recent notes
+notes() {
+    local notes_dir="$HOME/notes"
+    if [ -d "$notes_dir" ]; then
+        ls -lt "$notes_dir" | head -10
+    else
+        echo "No notes directory found"
+    fi
+}
+
+# Weather (requires curl)
+weather() {
+    local location=${1:-}
+    curl -s "wttr.in/$location?format=3"
+}
+
+# Cheat sheet (requires curl)
+cheat() {
+    curl -s "cheat.sh/$1"
+}

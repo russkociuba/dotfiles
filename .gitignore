@@ -1,0 +1,16 @@
+# Dotfiles repository .gitignore
+
+# Machine-specific local overrides
+*.local
+
+# Backup files created by install script
+*.backup-*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
