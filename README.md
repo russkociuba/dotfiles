@@ -22,6 +22,7 @@ Clean, simple, and functional dotfiles for developers who prefer simplicity over
 - History management
 - Key bindings for navigation
 - Colorful man pages
+- **Tmux auto-start:** Each terminal tab automatically starts in a unique tmux session
 
 ### Aliases (.zsh_aliases)
 Organized into categories:
@@ -166,6 +167,28 @@ dotfiles/
 ├── install.sh           # Installation script
 └── README.md            # This file
 ```
+
+## Tmux Session Management
+
+Each terminal tab automatically starts in its own tmux session named `term-<pid>`.
+
+### Switching Between Sessions (In-Program)
+- **List all sessions:** `Ctrl+b s` (interactive list - use arrows and Enter)
+- **Next session:** `Ctrl+b )`
+- **Previous session:** `Ctrl+b (`
+- **Detach current:** `Ctrl+b d`
+
+### Command-Line Session Management
+```bash
+tmux list-sessions          # View all sessions
+tmux attach -t term-12345   # Attach to specific session
+tmux kill-session -t name   # Kill a specific session
+```
+
+### Why This Is Useful
+- Continue work when switching from physical to remote login
+- Never lose terminal state when connection drops
+- Switch between different work contexts easily
 
 ## Useful Commands
 

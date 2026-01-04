@@ -11,6 +11,20 @@ setopt HIST_IGNORE_SPACE
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 
+# ============================================================================
+# Tmux auto-start
+# ============================================================================
+
+# Automatically start tmux for each new terminal with a unique session
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    # Create a unique session name based on the terminal's process ID
+    session_name="term-$$"
+
+    # Start a new tmux session (exec replaces current shell with tmux)
+    # The tmux shell will re-run this .zshrc, but skip this block
+    exec tmux new-session -s "$session_name"
+fi
+
 # Directory navigation
 setopt AUTO_CD              # Type directory name to cd
 setopt AUTO_PUSHD           # Make cd push old directory onto stack

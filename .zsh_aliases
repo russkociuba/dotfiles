@@ -19,12 +19,13 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+alias ds='dirs -v'         # Show directory stack
 
 # Safety nets (-i = interactive, prompts before overwriting/deleting)
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
+alias c='clear'
 # Quick edits
 alias zshrc='$EDITOR ~/.zshrc'
 alias aliases='$EDITOR ~/.zsh_aliases'
